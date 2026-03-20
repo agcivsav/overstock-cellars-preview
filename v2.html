@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Overstock Cellars — Homepage v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#EE4037;--green:#2F7D57;--bg:#FAF8F5;--bg2:#F2EEE9;
+  --text:#1F1F1F;--muted:#6F6F6F;--divider:#E2DED8;
+  --serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,sans-serif;
+  --shadow:0 2px 20px rgba(0,0,0,.07);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow-x:hidden}
+
+/* ── ANNOUNCEMENT BAR ── */
+.bar{background:var(--text);text-align:center;padding:11px 20px;font-size:12.5px;
+  letter-spacing:.04em;color:rgba(255,255,255,.65);display:flex;align-items:center;
+  justify-content:center;gap:20px}
+.bar-item{display:flex;align-items:center;gap:6px}
+.bar-item svg{color:var(--red);flex-shrink:0}
+.bar-sep{color:rgba(255,255,255,.2)}
+
+/* ── NAV ── */
+nav{background:#fff;border-bottom:1px solid var(--divider);position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;padding:0 60px;height:76px;
+  box-shadow:0 1px 0 var(--divider)}
+.logo{font-family:var(--serif);color:var(--red);text-decoration:none;line-height:1}
+.logo-over{display:block;font-size:24px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+.logo-under{display:block;font-size:10px;font-weight:400;letter-spacing:.35em;text-transform:uppercase;
+  color:var(--muted);margin-top:1px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{text-decoration:none;font-family:var(--serif);font-size:14.5px;color:var(--text);
+  transition:color .2s;position:relative;padding-bottom:2px}
+.nav-links a::after{content:'';position:absolute;bottom:-1px;left:0;width:0;height:1.5px;
+  background:var(--red);transition:width .25s}
+.nav-links a:hover{color:var(--red)}
+.nav-links a:hover::after{width:100%}
+.nav-links a.new{color:var(--red);font-weight:600}
+.nav-links a.new::after{display:none}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-search{background:none;border:none;cursor:pointer;color:var(--muted);transition:color .2s;padding:4px}
+.nav-search:hover{color:var(--red)}
+.nav-cart{display:flex;align-items:center;gap:7px;border:1.5px solid var(--divider);
+  border-radius:100px;padding:7px 18px;font-size:13px;cursor:pointer;
+  color:var(--text);font-family:var(--sans);background:#fff;transition:all .2s}
+.nav-cart:hover{border-color:var(--red);color:var(--red)}
+.cart-count{background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;
+  font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+
+/* ── HERO ── */
+.hero{min-height:620px;background:#1a0f0b;display:grid;grid-template-columns:55% 45%;
+  position:relative;overflow:hidden}
+.hero-overlay{position:absolute;inset:0;
+  background:linear-gradient(105deg,rgba(20,8,5,.92) 0%,rgba(20,8,5,.7) 45%,rgba(60,20,10,.4) 100%);
+  z-index:1}
+.hero-photo{position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 80% 60%,rgba(120,50,20,.35) 0%,transparent 55%),
+    linear-gradient(160deg,#2a1208 0%,#5a2510 35%,#3a1a0c 70%,#1a0a05 100%);
+  z-index:0}
+/* Decorative wine texture */
+.hero-photo::after{content:'';position:absolute;inset:0;opacity:.06;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,.5) 2px,rgba(255,255,255,.5) 3px);
+  z-index:0}
+.hero-content{padding:90px 70px 90px 80px;display:flex;flex-direction:column;
+  justify-content:center;position:relative;z-index:2}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;
+  color:rgba(255,255,255,.5);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  margin-bottom:28px}
+.hero-tag-dot{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0}
+.hero h1{font-family:var(--serif);font-size:clamp(44px,5.5vw,72px);line-height:1.05;
+  color:#fff;font-weight:700;margin-bottom:22px}
+.hero h1 .italic{font-style:italic;font-weight:400;color:rgba(255,255,255,.7)}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.6);line-height:1.7;max-width:430px;margin-bottom:40px}
+.hero-sub strong{color:rgba(255,255,255,.9)}
+.price-method{display:flex;align-items:center;gap:10px;margin-bottom:44px;flex-wrap:wrap}
+.pm-pill{border-radius:100px;padding:8px 20px;font-size:13px;font-weight:500;
+  letter-spacing:.02em;cursor:default;transition:transform .2s}
+.pm-pill:hover{transform:translateY(-2px)}
+.pm-our{background:var(--red);color:#fff}
+.pm-sep{color:rgba(255,255,255,.3);font-size:18px}
+.pm-else{border:1.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.75)}
+.pm-arrow{color:rgba(255,255,255,.35);font-size:18px}
+.pm-save{background:rgba(47,125,87,.9);color:#fff}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+.btn-red{background:var(--red);color:#fff;padding:15px 32px;border-radius:100px;
+  font-size:15px;font-weight:600;text-decoration:none;transition:all .25s;display:inline-block;
+  box-shadow:0 4px 20px rgba(238,64,55,.35)}
+.btn-red:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(238,64,55,.45)}
+.btn-ghost{border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.8);
+  padding:15px 32px;border-radius:100px;font-size:15px;font-weight:400;text-decoration:none;
+  transition:all .25s;display:inline-block}
+.btn-ghost:hover{border-color:rgba(255,255,255,.65);background:rgba(255,255,255,.07)}
+.hero-visual{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;
+  padding:60px 40px 60px 20px}
+.bottles-stage{display:flex;align-items:flex-end;gap:14px;
+  filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+.hero-stat-row{display:flex;gap:32px;margin-top:44px;padding-top:36px;
+  border-top:1px solid rgba(255,255,255,.1)}
+.hero-stat{text-align:left}
+.hero-stat-num{font-family:var(--serif);font-size:28px;font-weight:700;color:#fff}
+.hero-stat-label{font-size:11px;color:rgba(255,255,255,.45);letter-spacing:.05em;margin-top:2px}
+
+/* ── DISCLAIMER ── */
+.disclaimer{background:var(--bg2);border-bottom:1px solid var(--divider);text-align:center;
+  padding:11px 24px;font-size:12px;color:var(--muted);display:flex;align-items:center;
+  justify-content:center;gap:6px}
+
+/* ── SECTION SHELL ── */
+.section{padding:80px 80px}
+.section-sm{padding:56px 80px}
+@media(max-width:1100px){
+  .section,.section-sm{padding:56px 40px}
+  nav{padding:0 28px}
+  .hero{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .hero-content{padding:70px 40px}
+}
+.sh{display:flex;align-items:center;gap:20px;margin-bottom:48px}
+.sh::before,.sh::after{content:'';flex:1;height:1px;background:var(--divider)}
+.sh h2{font-family:var(--serif);font-size:30px;white-space:nowrap}
+.sh-sub{text-align:center;color:var(--muted);font-size:15px;margin-top:-36px;margin-bottom:48px}
+
+/* ── COLLECTION STRIPS ── */
+.coll-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.coll-card{border-radius:18px;overflow:hidden;position:relative;cursor:pointer;
+  transition:transform .3s;min-height:220px;display:flex;flex-direction:column;justify-content:flex-end}
+.coll-card:hover{transform:translateY(-5px)}
+.coll-card:hover .coll-overlay{opacity:1}
+.coll-bg{position:absolute;inset:0}
+.coll-bg-new{background:linear-gradient(135deg,#1a2a1a 0%,#2d4a2d 100%)}
+.coll-bg-deal{background:linear-gradient(135deg,#1a1a2a 0%,#2d2d4a 100%)}
+.coll-bg-last{background:linear-gradient(135deg,#2a1a1a 0%,#4a2020 100%)}
+.coll-overlay{position:absolute;inset:0;background:rgba(0,0,0,.2);opacity:0;transition:opacity .3s}
+.coll-deco{position:absolute;top:0;right:0;bottom:0;left:0;display:flex;align-items:center;
+  justify-content:flex-end;padding-right:24px;opacity:.25;font-size:80px}
+.coll-content{position:relative;z-index:1;padding:28px 28px 28px}
+.coll-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:12px}
+.coll-tag-green{background:rgba(47,125,87,.3);color:#6fcf97;border:1px solid rgba(47,125,87,.4)}
+.coll-tag-blue{background:rgba(100,140,200,.25);color:#90bdf0;border:1px solid rgba(100,140,200,.3)}
+.coll-tag-amber{background:rgba(200,130,42,.25);color:#f0c060;border:1px solid rgba(200,130,42,.3)}
+.coll-card h3{font-family:var(--serif);font-size:26px;color:#fff;margin-bottom:6px}
+.coll-card p{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:20px}
+.coll-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);
+  color:#fff;border:1px solid rgba(255,255,255,.2);padding:9px 20px;border-radius:100px;
+  font-size:13px;font-weight:500;text-decoration:none;transition:all .2s;backdrop-filter:blur(4px)}
+.coll-btn:hover{background:var(--red);border-color:var(--red)}
+.coll-count{font-size:11px;color:rgba(255,255,255,.35);margin-top:12px}
+
+/* ── PRODUCT CARDS ── */
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+@media(max-width:1100px){.prod-grid{grid-template-columns:repeat(2,1fr)}}
+.pc{background:#fff;border:1px solid var(--divider);border-radius:16px;overflow:hidden;
+  display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s;cursor:pointer}
+.pc:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.1)}
+.pc-img{background:var(--bg2);position:relative;padding:36px 24px 28px;
+  display:flex;justify-content:center;align-items:center;min-height:240px}
+.pc-badge-save{position:absolute;top:14px;right:14px;background:var(--green);color:#fff;
+  font-size:11px;font-weight:700;padding:5px 10px;border-radius:8px;letter-spacing:.02em}
+.pc-badge-low{position:absolute;top:14px;left:14px;background:rgba(238,64,55,.1);
+  color:var(--red);font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+  padding:4px 9px;border-radius:6px;border:1px solid rgba(238,64,55,.2)}
+.pc-info{padding:18px 18px 20px;flex:1;display:flex;flex-direction:column}
+.pc-name{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--text);
+  margin-bottom:3px;line-height:1.3}
+.pc-detail{color:var(--muted);font-size:12px;margin-bottom:14px}
+.pc-prices{display:flex;flex-direction:column;gap:3px;margin-bottom:14px}
+.pc-our{font-size:22px;font-weight:700;color:var(--red);font-family:var(--serif);
+  display:flex;align-items:baseline;gap:5px}
+.pc-our-label{font-size:11px;font-weight:500;font-family:var(--sans);color:rgba(238,64,55,.7)}
+.pc-else-row{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.pc-else-label{font-size:10px;letter-spacing:.05em}
+.pc-else-price{text-decoration:line-through}
+.pc-save{font-size:12px;font-weight:600;color:var(--green);display:flex;align-items:center;gap:4px}
+.pc-add{width:100%;background:var(--red);color:#fff;border:none;border-radius:100px;
+  height:42px;font-size:14px;font-weight:600;cursor:pointer;
+  transition:background .2s,transform .15s;margin-top:auto;font-family:var(--sans)}
+.pc-add:hover{background:#d63529;transform:scale(1.01)}
+.pc-add.added{background:var(--green)}
+
+/* ── BOTTLE SVG ── */
+.bottle-svg{width:64px;filter:drop-shadow(4px 8px 16px rgba(0,0,0,.25))}
+
+/* ── PRICE TRANSPARENCY ── */
+.pt-section{background:var(--text);padding:88px 80px;position:relative;overflow:hidden}
+.pt-section::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 20% 60%,rgba(238,64,55,.1) 0%,transparent 55%)}
+.pt-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;z-index:1}
+@media(max-width:1100px){.pt-grid{grid-template-columns:1fr;gap:40px}}
+.pt-text .overline{font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--red);font-weight:600;margin-bottom:16px}
+.pt-text h2{font-family:var(--serif);font-size:clamp(32px,4vw,52px);color:#fff;
+  line-height:1.1;margin-bottom:20px}
+.pt-text p{color:rgba(255,255,255,.55);font-size:15px;line-height:1.75;margin-bottom:28px}
+.pt-link{color:var(--red);font-size:14px;font-weight:600;text-decoration:none;
+  display:inline-flex;align-items:center;gap:6px;transition:gap .2s}
+.pt-link:hover{gap:10px}
+.pt-demo{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:36px;backdrop-filter:blur(10px)}
+.pt-demo-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-bottom:24px}
+.pt-wine-name{font-family:var(--serif);font-size:18px;color:#fff;margin-bottom:4px}
+.pt-wine-detail{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:28px}
+.pt-price-row{display:flex;justify-content:space-between;align-items:center;
+  padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.pt-price-row:last-child{border-bottom:none;padding-bottom:0}
+.pt-price-label{font-size:13px;color:rgba(255,255,255,.5)}
+.pt-price-val-our{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--red)}
+.pt-price-val-else{font-size:24px;color:rgba(255,255,255,.4);text-decoration:line-through}
+.pt-price-val-save{font-size:22px;font-weight:700;color:#6fcf97}
+.pt-steps{display:flex;flex-direction:column;gap:20px;margin-top:32px}
+.pt-step{display:flex;align-items:flex-start;gap:16px}
+.pt-step-num{width:32px;height:32px;border-radius:50%;background:rgba(238,64,55,.15);
+  border:1px solid rgba(238,64,55,.3);display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:var(--red);flex-shrink:0;margin-top:1px}
+.pt-step-text h4{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px}
+.pt-step-text p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.5}
+
+/* ── ALMOST GONE ── */
+.ag-section{background:var(--bg2);padding:72px 80px}
+.ag-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:1100px){.ag-grid{grid-template-columns:repeat(2,1fr)}}
+.ag-card{background:#fff;border:1px solid var(--divider);border-radius:14px;overflow:hidden;
+  display:flex;flex-direction:column;transition:transform .25s;cursor:pointer}
+.ag-card:hover{transform:translateY(-4px)}
+.ag-card-top{background:var(--bg2);padding:28px 20px 20px;
+  display:flex;justify-content:center;align-items:center;min-height:180px;position:relative}
+.ag-low{position:absolute;bottom:10px;left:0;right:0;text-align:center}
+.ag-low-inner{display:inline-flex;align-items:center;gap:5px;background:rgba(238,64,55,.9);
+  color:#fff;font-size:11px;font-weight:600;padding:5px 12px;border-radius:100px;
+  letter-spacing:.04em}
+.ag-info{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
+.ag-name{font-family:var(--serif);font-size:14px;font-weight:600;margin-bottom:2px;line-height:1.3}
+.ag-detail{font-size:11px;color:var(--muted);margin-bottom:10px}
+.ag-prices{display:flex;align-items:baseline;gap:8px;margin-bottom:12px}
+.ag-our{font-size:18px;font-weight:700;color:var(--red);font-family:var(--serif)}
+.ag-else{font-size:13px;color:var(--muted);text-decoration:line-through}
+.ag-pct{font-size:11px;font-weight:600;color:var(--green);
+  background:rgba(47,125,87,.1);padding:2px 7px;border-radius:4px}
+.ag-add{width:100%;background:#fff;border:1.5px solid var(--red);color:var(--red);
+  border-radius:100px;height:36px;font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .2s;margin-top:auto;font-family:var(--sans)}
+.ag-add:hover{background:var(--red);color:#fff}
+.ag-cta{text-align:center;margin-top:36px}
+
+/* ── NOTIFY SECTION ── */
+.notify-section{padding:80px;background:var(--bg)}
+.notify-inner{background:var(--bg2);border:1px solid var(--divider);border-radius:24px;
+  padding:64px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+@media(max-width:1100px){.notify-inner{grid-template-columns:1fr;gap:36px;padding:40px}}
+.notify-text .overline{font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--green);font-weight:600;margin-bottom:14px}
+.notify-text h2{font-family:var(--serif);font-size:clamp(28px,3.5vw,42px);
+  line-height:1.2;margin-bottom:16px}
+.notify-text p{color:var(--muted);font-size:15px;line-height:1.7}
+.notify-form{display:flex;flex-direction:column;gap:14px}
+.notify-row{display:flex;gap:10px}
+.notify-input{flex:1;padding:14px 20px;border:1.5px solid var(--divider);
+  border-radius:100px;font-size:15px;font-family:var(--sans);color:var(--text);
+  background:#fff;outline:none;transition:border-color .2s}
+.notify-input:focus{border-color:var(--red)}
+.notify-input::placeholder{color:#b0aba5}
+.notify-submit{background:var(--red);color:#fff;border:none;border-radius:100px;
+  padding:14px 28px;font-size:15px;font-weight:600;cursor:pointer;
+  font-family:var(--sans);white-space:nowrap;transition:all .25s}
+.notify-submit:hover{background:#d63529;transform:scale(1.02)}
+.notify-note{font-size:12px;color:var(--muted);padding-left:20px}
+.notify-perks{display:flex;flex-direction:column;gap:12px;margin-top:4px}
+.notify-perk{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted)}
+.notify-perk-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0}
+
+/* ── ABOUT TEASER ── */
+.about-section{padding:80px;background:var(--bg)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+@media(max-width:1100px){.about-inner{grid-template-columns:1fr;gap:36px}}
+.about-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;border-radius:18px;overflow:hidden}
+.about-stat-box{background:var(--bg2);padding:28px 24px;display:flex;flex-direction:column;gap:6px}
+.about-stat-box:nth-child(1){border-radius:18px 0 0 0}
+.about-stat-box:nth-child(2){border-radius:0 18px 0 0}
+.about-stat-box:nth-child(3){border-radius:0 0 0 18px}
+.about-stat-box:nth-child(4){border-radius:0 0 18px 0}
+.about-stat-n{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--red)}
+.about-stat-l{font-size:13px;color:var(--muted)}
+.about-text .overline{font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin-bottom:16px}
+.about-text h2{font-family:var(--serif);font-size:clamp(28px,3.5vw,42px);
+  line-height:1.2;margin-bottom:20px}
+.about-text p{color:var(--muted);font-size:15px;line-height:1.75;margin-bottom:28px}
+.about-text a{display:inline-flex;align-items:center;gap:8px;color:var(--red);
+  font-size:14px;font-weight:600;text-decoration:none;transition:gap .2s}
+.about-text a:hover{gap:12px}
+
+/* ── VENDOR SECTION ── */
+.vendor-section{background:var(--text);padding:80px}
+.vendor-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+@media(max-width:1100px){.vendor-inner{grid-template-columns:1fr;gap:32px}}
+.vendor-text .overline{font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);font-weight:600;margin-bottom:14px}
+.vendor-text h2{font-family:var(--serif);font-size:clamp(28px,3.5vw,44px);
+  color:#fff;line-height:1.2;margin-bottom:18px}
+.vendor-text p{color:rgba(255,255,255,.5);font-size:15px;line-height:1.75;margin-bottom:28px}
+.vendor-btn{display:inline-flex;align-items:center;gap:8px;background:var(--red);
+  color:#fff;padding:15px 32px;border-radius:100px;font-size:15px;font-weight:600;
+  text-decoration:none;transition:all .25s}
+.vendor-btn:hover{background:#d63529;transform:translateY(-2px)}
+.vendor-criteria{display:flex;flex-direction:column;gap:16px}
+.vc{display:flex;align-items:flex-start;gap:16px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:20px}
+.vc-icon{font-size:22px;flex-shrink:0;margin-top:1px}
+.vc h4{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px}
+.vc p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.5}
+
+/* ── FOOTER ── */
+footer{background:#111;color:rgba(255,255,255,.45);padding:72px 80px 40px}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;gap:48px;margin-bottom:56px}
+@media(max-width:1100px){.footer-top{grid-template-columns:1fr 1fr;gap:32px}}
+.footer-brand{max-width:240px}
+.footer-logo{font-family:var(--serif);font-weight:900;font-size:20px;letter-spacing:.06em;
+  text-transform:uppercase;color:rgba(255,255,255,.8);display:block;margin-bottom:14px}
+.footer-brand-sub{font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.25);display:block;margin-bottom:16px;margin-top:-12px}
+.footer-brand p{font-size:13px;line-height:1.7}
+.footer-col h4{font-family:var(--serif);color:rgba(255,255,255,.85);font-size:15px;
+  margin-bottom:16px;font-weight:600}
+.footer-col a{display:block;color:rgba(255,255,255,.4);text-decoration:none;font-size:13px;
+  margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:var(--red)}
+.footer-col a.sold-out{color:rgba(238,64,55,.5);font-style:italic}
+.footer-col a.sold-out:hover{color:var(--red)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:28px;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.footer-disc{font-size:11.5px;max-width:60%;line-height:1.6}
+.social-row{display:flex;gap:12px}
+.si{width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);
+  cursor:pointer;transition:all .2s}
+.si:hover{border-color:rgba(255,255,255,.35);color:rgba(255,255,255,.8)}
+
+/* ── ANIMATIONS ── */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity .65s ease,transform .65s ease}
+.fade-up.vis{opacity:1;transform:none}
+.delay-1{transition-delay:.1s}.delay-2{transition-delay:.2s}.delay-3{transition-delay:.3s}
+
+/* ── BOTTLE SVG GENERATOR ── */
+</style>
+</head>
+<body>
+
+<!-- ── ANNOUNCEMENT BAR ── -->
+<div class="bar">
+  <div class="bar-item">
+    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    Limited quantities
+  </div>
+  <span class="bar-sep">·</span>
+  <div class="bar-item">New drops weekly</div>
+  <span class="bar-sep">·</span>
+  <div class="bar-item">
+    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    Free shipping on 6+ bottles
+  </div>
+  <span class="bar-sep">·</span>
+  <div class="bar-item">Fast California delivery</div>
+</div>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="logo">
+    <span class="logo-over">Overstock</span>
+    <span class="logo-under">Cellars</span>
+  </a>
+  <div class="nav-links">
+    <a href="#" class="new">New Arrivals</a>
+    <a href="#">Shop All Wines</a>
+    <a href="#">Red Wines</a>
+    <a href="#">White Wines</a>
+    <a href="#">Sparkling &amp; Rosé</a>
+    <a href="#">Last Call</a>
+    <a href="#">How Pricing Works</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-search" title="Search">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+    <button class="nav-cart">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      Cart <span class="cart-count">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-tag"><span class="hero-tag-dot"></span>Value wine. No gimmicks. Since 2005.</div>
+    <h1>Overstock wines.<br><span class="italic">Priced below market.</span></h1>
+    <p class="hero-sub">Compare <strong>Our Price</strong> vs <strong>Elsewhere</strong> and keep the savings. Smart sourcing, real transparency, limited quantities.</p>
+    <div class="price-method">
+      <span class="pm-pill pm-our">Our Price</span>
+      <span class="pm-sep">vs</span>
+      <span class="pm-pill pm-else">Elsewhere</span>
+      <span class="pm-arrow">→</span>
+      <span class="pm-pill pm-save">You Save</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="#arrivals" class="btn-red">Shop New Arrivals</a>
+      <a href="#how-pricing" class="btn-ghost">How Pricing Works</a>
+    </div>
+    <div class="hero-stat-row">
+      <div class="hero-stat"><div class="hero-stat-num">< 100</div><div class="hero-stat-label">Wines at any time</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">No</div><div class="hero-stat-label">Restocks ever</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">Real</div><div class="hero-stat-label">Price comparisons</div></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="bottles-stage">
+      <!-- Bottle 1 – Red -->
+      <svg class="bottle-svg" style="height:210px" viewBox="0 0 64 210" fill="none">
+        <rect x="22" y="0" width="20" height="34" rx="3" fill="#1a1a1a"/>
+        <rect x="18" y="30" width="28" height="8" rx="2" fill="#111"/>
+        <path d="M14 38 Q10 62 10 92 L10 196 Q10 206 32 206 Q54 206 54 196 L54 92 Q54 62 50 38 Z" fill="#5a2010"/>
+        <rect x="14" y="96" width="36" height="70" rx="2" fill="rgba(255,255,255,.1)"/>
+        <text x="32" y="122" text-anchor="middle" fill="rgba(255,255,255,.75)" font-size="7" font-family="serif" letter-spacing="1">RUTHERFORD</text>
+        <text x="32" y="133" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="6" font-family="serif" letter-spacing="1">RANCH</text>
+        <text x="32" y="150" text-anchor="middle" fill="#EE4037" font-size="9" font-family="serif">CAB SAV</text>
+        <text x="32" y="162" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="6" font-family="sans-serif">2020 · NAPA VALLEY</text>
+      </svg>
+      <!-- Bottle 2 – White (taller center) -->
+      <svg class="bottle-svg" style="height:240px" viewBox="0 0 64 240" fill="none">
+        <rect x="24" y="0" width="16" height="38" rx="2" fill="#222"/>
+        <rect x="20" y="34" width="24" height="8" rx="2" fill="#1a1a1a"/>
+        <path d="M12 42 Q8 68 8 100 L8 226 Q8 236 32 236 Q56 236 56 226 L56 100 Q56 68 52 42 Z" fill="#c8b060"/>
+        <rect x="12" y="106" width="40" height="75" rx="2" fill="rgba(255,255,255,.2)"/>
+        <text x="32" y="132" text-anchor="middle" fill="#3a2808" font-size="8" font-family="serif" font-weight="bold">TALBOTT</text>
+        <text x="32" y="144" text-anchor="middle" fill="#5a3818" font-size="6" font-family="serif" letter-spacing=".5">CHARDONNAY</text>
+        <text x="32" y="162" text-anchor="middle" fill="#7a4820" font-size="9" font-family="serif">2021</text>
+        <text x="32" y="174" text-anchor="middle" fill="rgba(60,30,10,.6)" font-size="6" font-family="sans-serif">SANTA LUCIA</text>
+      </svg>
+      <!-- Bottle 3 – Deep Red -->
+      <svg class="bottle-svg" style="height:220px" viewBox="0 0 64 220" fill="none">
+        <rect x="23" y="0" width="18" height="32" rx="3" fill="#111"/>
+        <rect x="18" y="28" width="28" height="8" rx="2" fill="#0a0a0a"/>
+        <path d="M13 36 Q9 58 9 88 L9 206 Q9 216 32 216 Q55 216 55 206 L55 88 Q55 58 51 36 Z" fill="#2d1028"/>
+        <rect x="13" y="92" width="38" height="68" rx="2" fill="rgba(255,255,255,.09)"/>
+        <text x="32" y="117" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="7" font-family="serif" letter-spacing="1">CHÂTEAU</text>
+        <text x="32" y="129" text-anchor="middle" fill="#fff" font-size="9" font-family="serif" font-weight="bold">LUSSAN</text>
+        <text x="32" y="144" text-anchor="middle" fill="rgba(255,255,255,.45)" font-size="6" font-family="serif">BORDEAUX 2019</text>
+        <text x="32" y="155" text-anchor="middle" fill="#EE4037" font-size="7" font-family="sans-serif">47% OFF</text>
+      </svg>
+      <!-- Bottle 4 – Rosé (shorter) -->
+      <svg class="bottle-svg" style="height:200px" viewBox="0 0 64 200" fill="none">
+        <rect x="23" y="0" width="18" height="28" rx="2" fill="#333"/>
+        <rect x="19" y="24" width="26" height="8" rx="2" fill="#2a2a2a"/>
+        <path d="M14 32 Q10 52 10 78 L10 186 Q10 196 32 196 Q54 196 54 186 L54 78 Q54 52 50 32 Z" fill="#e8b0b0"/>
+        <rect x="13" y="84" width="38" height="62" rx="2" fill="rgba(255,255,255,.25)"/>
+        <text x="32" y="108" text-anchor="middle" fill="#7a2020" font-size="8" font-family="serif" font-weight="bold">ENROUTE</text>
+        <text x="32" y="120" text-anchor="middle" fill="#9a3030" font-size="6" font-family="serif">PINOT NOIR ROSÉ</text>
+        <text x="32" y="136" text-anchor="middle" fill="#EE4037" font-size="8" font-family="serif">2022</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ── DISCLAIMER ── -->
+<div class="disclaimer">
+  <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+  Elsewhere prices are based on Wine-Searcher and other national retailers at time of posting.
+</div>
+
+<!-- ── COLLECTIONS ── -->
+<section class="section" id="arrivals">
+  <div class="sh"><h2>Shop by Collection</h2></div>
+  <div class="coll-grid">
+    <div class="coll-card fade-up">
+      <div class="coll-bg coll-bg-new"></div>
+      <div class="coll-overlay"></div>
+      <div class="coll-deco">🍾</div>
+      <div class="coll-content">
+        <span class="coll-tag coll-tag-green">Fresh Drop</span>
+        <h3>New Arrivals</h3>
+        <p>Latest additions, sorted strictly by what just landed — not by price.</p>
+        <a href="#" class="coll-btn">Shop New Arrivals <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <div class="coll-count">Updated weekly</div>
+      </div>
+    </div>
+    <div class="coll-card fade-up delay-1">
+      <div class="coll-bg coll-bg-deal"></div>
+      <div class="coll-overlay"></div>
+      <div class="coll-deco">💰</div>
+      <div class="coll-content">
+        <span class="coll-tag coll-tag-blue">Best Value</span>
+        <h3>Biggest Savings</h3>
+        <p>Ranked by highest % off — the deals that'll make you question everything else.</p>
+        <a href="#" class="coll-btn">Shop Biggest Savings <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <div class="coll-count">Up to 57% off</div>
+      </div>
+    </div>
+    <div class="coll-card fade-up delay-2">
+      <div class="coll-bg coll-bg-last"></div>
+      <div class="coll-overlay"></div>
+      <div class="coll-deco">⏳</div>
+      <div class="coll-content">
+        <span class="coll-tag coll-tag-amber">Final Inventory</span>
+        <h3>Last Call</h3>
+        <p>Final bottles. No restocks. Once gone, it's gone — forever.</p>
+        <a href="#" class="coll-btn">Shop Last Call <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <div class="coll-count">Moving fast</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BEST DEALS PRODUCT GRID ── -->
+<section class="section" style="padding-top:0">
+  <div class="sh"><h2>Best Deals Right Now</h2></div>
+  <p class="sh-sub">Highest savings across all collections. Updated as inventory moves.</p>
+  <div class="prod-grid">
+    <!-- Card 1 -->
+    <div class="pc fade-up">
+      <div class="pc-img">
+        <span class="pc-badge-save">47% off</span>
+        <svg class="bottle-svg" style="height:180px" viewBox="0 0 64 180" fill="none">
+          <rect x="23" y="0" width="18" height="26" rx="3" fill="#111"/><rect x="19" y="22" width="26" height="6" rx="2" fill="#0a0a0a"/>
+          <path d="M13 28 Q9 48 9 74 L9 168 Q9 178 32 178 Q55 178 55 168 L55 74 Q55 48 51 28 Z" fill="#2d1028"/>
+          <rect x="12" y="76" width="40" height="58" rx="2" fill="rgba(255,255,255,.09)"/>
+          <text x="32" y="98" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="6" font-family="serif" letter-spacing="1">CHÂTEAU</text>
+          <text x="32" y="109" text-anchor="middle" fill="#fff" font-size="8" font-family="serif" font-weight="bold">LUSSAN</text>
+          <text x="32" y="125" text-anchor="middle" fill="#EE4037" font-size="7">BORDEAUX · 2019</text>
+        </svg>
+      </div>
+      <div class="pc-info">
+        <div class="pc-name">Château Lussan</div>
+        <div class="pc-detail">Bordeaux Supérieur · 2019</div>
+        <div class="pc-prices">
+          <div class="pc-our"><span class="pc-our-label">Our Price</span> $45</div>
+          <div class="pc-else-row"><span class="pc-else-label">Elsewhere</span><span class="pc-else-price">$85</span></div>
+          <div class="pc-save"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>You save $40</div>
+        </div>
+        <button class="pc-add" onclick="addedAnim(this)">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="pc fade-up delay-1">
+      <div class="pc-img">
+        <span class="pc-badge-save">50% off</span>
+        <span class="pc-badge-low">Only 6 left</span>
+        <svg class="bottle-svg" style="height:180px" viewBox="0 0 64 180" fill="none">
+          <rect x="22" y="0" width="20" height="28" rx="3" fill="#1a0a0a"/><rect x="18" y="24" width="28" height="6" rx="2" fill="#111"/>
+          <path d="M13 30 Q9 52 9 78 L9 168 Q9 178 32 178 Q55 178 55 168 L55 78 Q55 52 51 30 Z" fill="#4a1808"/>
+          <rect x="13" y="80" width="38" height="60" rx="2" fill="rgba(255,255,255,.1)"/>
+          <text x="32" y="103" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="5.5" font-family="serif" letter-spacing="1.5">RUTHERFORD</text>
+          <text x="32" y="113" text-anchor="middle" fill="#fff" font-size="7" font-family="serif" font-weight="bold">RANCH</text>
+          <text x="32" y="128" text-anchor="middle" fill="#EE4037" font-size="7">CAB SAUVIGNON</text>
+        </svg>
+      </div>
+      <div class="pc-info">
+        <div class="pc-name">Rutherford Ranch Cabernet Sauvignon</div>
+        <div class="pc-detail">Napa Valley · 2020</div>
+        <div class="pc-prices">
+          <div class="pc-our"><span class="pc-our-label">Our Price</span> $59</div>
+          <div class="pc-else-row"><span class="pc-else-label">Elsewhere</span><span class="pc-else-price">$118</span></div>
+          <div class="pc-save"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>You save $59</div>
+        </div>
+        <button class="pc-add" onclick="addedAnim(this)">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="pc fade-up delay-2">
+      <div class="pc-img">
+        <span class="pc-badge-save">50% off</span>
+        <svg class="bottle-svg" style="height:180px" viewBox="0 0 64 180" fill="none">
+          <rect x="24" y="0" width="16" height="28" rx="2" fill="#222"/><rect x="20" y="24" width="24" height="6" rx="2" fill="#1a1a1a"/>
+          <path d="M12 30 Q8 52 8 78 L8 168 Q8 178 32 178 Q56 178 56 168 L56 78 Q56 52 52 30 Z" fill="#c8a850"/>
+          <rect x="12" y="82" width="40" height="60" rx="2" fill="rgba(255,255,255,.2)"/>
+          <text x="32" y="106" text-anchor="middle" fill="#3a2808" font-size="8" font-family="serif" font-weight="bold">TALBOTT</text>
+          <text x="32" y="118" text-anchor="middle" fill="#5a3818" font-size="6" font-family="serif">CHARDONNAY</text>
+          <text x="32" y="132" text-anchor="middle" fill="#7a4820" font-size="8" font-family="serif">2021</text>
+        </svg>
+      </div>
+      <div class="pc-info">
+        <div class="pc-name">Talbott Chardonnay</div>
+        <div class="pc-detail">Sleepy Hollow · Santa Lucia Highlands · 2021</div>
+        <div class="pc-prices">
+          <div class="pc-our"><span class="pc-our-label">Our Price</span> $66</div>
+          <div class="pc-else-row"><span class="pc-else-label">Elsewhere</span><span class="pc-else-price">$132</span></div>
+          <div class="pc-save"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>You save $66</div>
+        </div>
+        <button class="pc-add" onclick="addedAnim(this)">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Card 4 -->
+    <div class="pc fade-up delay-3">
+      <div class="pc-img">
+        <span class="pc-badge-save">26% off</span>
+        <svg class="bottle-svg" style="height:180px" viewBox="0 0 64 180" fill="none">
+          <rect x="23" y="0" width="18" height="26" rx="2" fill="#1a1a2a"/><rect x="19" y="22" width="26" height="6" rx="2" fill="#111"/>
+          <path d="M13 28 Q9 50 9 76 L9 168 Q9 178 32 178 Q55 178 55 168 L55 76 Q55 50 51 28 Z" fill="#3a2060"/>
+          <rect x="13" y="80" width="38" height="58" rx="2" fill="rgba(255,255,255,.1)"/>
+          <text x="32" y="103" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="7" font-family="serif">HOOPES</text>
+          <text x="32" y="114" text-anchor="middle" fill="#fff" font-size="7" font-family="serif" font-weight="bold">RESERVE</text>
+          <text x="32" y="129" text-anchor="middle" fill="rgba(200,180,255,.7)" font-size="6" font-family="sans-serif">RED BLEND · 2020</text>
+        </svg>
+      </div>
+      <div class="pc-info">
+        <div class="pc-name">Hoopes Reserve Red Blend</div>
+        <div class="pc-detail">Napa Valley · 2020</div>
+        <div class="pc-prices">
+          <div class="pc-our"><span class="pc-our-label">Our Price</span> $45</div>
+          <div class="pc-else-row"><span class="pc-else-label">Elsewhere</span><span class="pc-else-price">$61</span></div>
+          <div class="pc-save"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>You save $16</div>
+        </div>
+        <button class="pc-add" onclick="addedAnim(this)">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:44px">
+    <a href="#" class="btn-red">View All Deals →</a>
+  </div>
+</section>
+
+<!-- ── PRICE TRANSPARENCY ── -->
+<section class="pt-section" id="how-pricing">
+  <div class="pt-grid">
+    <div class="pt-text">
+      <div class="overline">How it works</div>
+      <h2>Transparent pricing.<br>Every bottle.</h2>
+      <p>We don't manufacture MSRPs or inflate "original" prices. Every comparison is pulled from Wine-Searcher and national retailers at the time we post the wine.</p>
+      <p>The system is the hero. You always know exactly what you're saving and why.</p>
+      <a href="#" class="pt-link">Read our full pricing policy <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <div class="pt-steps">
+        <div class="pt-step">
+          <div class="pt-step-num">1</div>
+          <div class="pt-step-text"><h4>We source overstock & closeouts</h4><p>Discontinued labels, excess inventory, packaging changes — direct from wineries, importers, and distributors.</p></div>
+        </div>
+        <div class="pt-step">
+          <div class="pt-step-num">2</div>
+          <div class="pt-step-text"><h4>We pull the comparison price</h4><p>Wine-Searcher + national retailers at the exact time we post each wine. Sourced and dated.</p></div>
+        </div>
+        <div class="pt-step">
+          <div class="pt-step-num">3</div>
+          <div class="pt-step-text"><h4>You buy smarter</h4><p>Same bottles. Verifiable savings. Limited quantities.</p></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="pt-demo fade-up">
+        <div class="pt-demo-title">Live price example</div>
+        <div class="pt-wine-name">Rutherford Ranch Cabernet Sauvignon</div>
+        <div class="pt-wine-detail">2020 · Napa Valley · Sourced: Wine-Searcher, Jan 2025</div>
+        <div class="pt-price-row">
+          <div class="pt-price-label">Our Price</div>
+          <div class="pt-price-val-our">$59</div>
+        </div>
+        <div class="pt-price-row">
+          <div class="pt-price-label">Elsewhere</div>
+          <div class="pt-price-val-else">$118</div>
+        </div>
+        <div class="pt-price-row">
+          <div class="pt-price-label" style="color:#6fcf97;font-weight:600">You Save</div>
+          <div class="pt-price-val-save">$59 &nbsp;(50%)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ALMOST GONE ── -->
+<section class="ag-section">
+  <div class="sh" style="margin-bottom:16px"><h2>Almost Gone</h2></div>
+  <p class="sh-sub" style="margin-bottom:40px">These are down to their last bottles. No restocks.</p>
+  <div class="ag-grid">
+    <div class="ag-card fade-up">
+      <div class="ag-card-top">
+        <svg style="height:140px;filter:drop-shadow(2px 4px 10px rgba(0,0,0,.2))" viewBox="0 0 64 140" fill="none">
+          <rect x="23" y="0" width="18" height="20" rx="2" fill="#111"/>
+          <path d="M14 20 Q10 36 10 54 L10 130 Q10 138 32 138 Q54 138 54 130 L54 54 Q54 36 50 20 Z" fill="#7a1818"/>
+          <rect x="12" y="56" width="40" height="44" rx="2" fill="rgba(255,255,255,.09)"/>
+          <text x="32" y="76" text-anchor="middle" fill="#fff" font-size="7" font-family="serif">CH. CARLMAGUE</text>
+          <text x="32" y="90" text-anchor="middle" fill="#EE4037" font-size="6">SAINT-ÉMILION</text>
+        </svg>
+        <div class="ag-low"><div class="ag-low-inner">
+          <svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Only 5 left
+        </div></div>
+      </div>
+      <div class="ag-info">
+        <div class="ag-name">Ch. Carlmague</div>
+        <div class="ag-detail">Saint-Émilion Grand Cru · 2018</div>
+        <div class="ag-prices"><span class="ag-our">$52</span><span class="ag-else">$95</span><span class="ag-pct">45% off</span></div>
+        <button class="ag-add" onclick="addedAnim(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="ag-card fade-up delay-1">
+      <div class="ag-card-top">
+        <svg style="height:140px;filter:drop-shadow(2px 4px 10px rgba(0,0,0,.2))" viewBox="0 0 64 140" fill="none">
+          <rect x="24" y="0" width="16" height="20" rx="2" fill="#222"/>
+          <path d="M13 20 Q9 36 9 54 L9 130 Q9 138 32 138 Q55 138 55 130 L55 54 Q55 36 51 20 Z" fill="#c8b060"/>
+          <rect x="12" y="56" width="40" height="44" rx="2" fill="rgba(255,255,255,.2)"/>
+          <text x="32" y="76" text-anchor="middle" fill="#3a2808" font-size="7" font-family="serif" font-weight="bold">TRAMIN</text>
+          <text x="32" y="90" text-anchor="middle" fill="#5a3818" font-size="6">GEWURZTRAMINER</text>
+        </svg>
+        <div class="ag-low"><div class="ag-low-inner">Only 5 left</div></div>
+      </div>
+      <div class="ag-info">
+        <div class="ag-name">Tramin Gewurztraminer</div>
+        <div class="ag-detail">Alto Adige · 2022</div>
+        <div class="ag-prices"><span class="ag-our">$34</span><span class="ag-else">$58</span><span class="ag-pct">41% off</span></div>
+        <button class="ag-add" onclick="addedAnim(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="ag-card fade-up delay-2">
+      <div class="ag-card-top">
+        <svg style="height:140px;filter:drop-shadow(2px 4px 10px rgba(0,0,0,.2))" viewBox="0 0 64 140" fill="none">
+          <rect x="23" y="0" width="18" height="20" rx="2" fill="#0a0a14"/>
+          <path d="M13 20 Q9 36 9 54 L9 130 Q9 138 32 138 Q55 138 55 130 L55 54 Q55 36 51 20 Z" fill="#3a1840"/>
+          <rect x="12" y="56" width="40" height="44" rx="2" fill="rgba(255,255,255,.08)"/>
+          <text x="32" y="75" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="7" font-family="serif">ENROUTE</text>
+          <text x="32" y="87" text-anchor="middle" fill="#EE4037" font-size="6.5">TYEE PINOT</text>
+          <text x="32" y="97" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="5.5">RUSSIAN RIVER</text>
+        </svg>
+        <div class="ag-low"><div class="ag-low-inner">Only 6 left</div></div>
+      </div>
+      <div class="ag-info">
+        <div class="ag-name">EnRoute Tyee Pinot Noir</div>
+        <div class="ag-detail">Russian River Valley · 2021</div>
+        <div class="ag-prices"><span class="ag-our">$78</span><span class="ag-else">$110</span><span class="ag-pct">29% off</span></div>
+        <button class="ag-add" onclick="addedAnim(this)">Add to Cart</button>
+      </div>
+    </div>
+    <div class="ag-card fade-up delay-3">
+      <div class="ag-card-top">
+        <svg style="height:140px;filter:drop-shadow(2px 4px 10px rgba(0,0,0,.2))" viewBox="0 0 64 140" fill="none">
+          <rect x="23" y="0" width="18" height="20" rx="2" fill="#111"/>
+          <path d="M13 20 Q9 36 9 54 L9 130 Q9 138 32 138 Q55 138 55 130 L55 54 Q55 36 51 20 Z" fill="#5a2a0a"/>
+          <rect x="12" y="56" width="40" height="44" rx="2" fill="rgba(255,255,255,.1)"/>
+          <text x="32" y="74" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="6" font-family="serif" letter-spacing="1">CH.</text>
+          <text x="32" y="85" text-anchor="middle" fill="#fff" font-size="7" font-family="serif" font-weight="bold">SÉMÉILION</text>
+          <text x="32" y="97" text-anchor="middle" fill="#EE4037" font-size="6">PESSAC 2017</text>
+        </svg>
+        <div class="ag-low"><div class="ag-low-inner">Only 3 left</div></div>
+      </div>
+      <div class="ag-info">
+        <div class="ag-name">Château Séméilion</div>
+        <div class="ag-detail">Pessac-Léognan · 2017</div>
+        <div class="ag-prices"><span class="ag-our">$89</span><span class="ag-else">$148</span><span class="ag-pct">40% off</span></div>
+        <button class="ag-add" onclick="addedAnim(this)">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+  <div class="ag-cta"><a href="#" class="btn-red" style="background:#fff;color:var(--text);border:1.5px solid var(--divider);">View All Last Call Wines →</a></div>
+</section>
+
+<!-- ── GET NOTIFIED ── -->
+<section class="notify-section">
+  <div class="notify-inner">
+    <div class="notify-text">
+      <div class="overline">Never miss a drop</div>
+      <h2>New deals move fast.<br>Get notified first.</h2>
+      <p>We post new closeout wines weekly. Sign up to get an email the moment new bottles land — before the best ones sell out.</p>
+      <div class="notify-perks" style="margin-top:20px">
+        <div class="notify-perk"><span class="notify-perk-dot"></span>No spam. Only when we add new wines.</div>
+        <div class="notify-perk"><span class="notify-perk-dot"></span>First access to new arrivals.</div>
+        <div class="notify-perk"><span class="notify-perk-dot"></span>Unsubscribe any time.</div>
+      </div>
+    </div>
+    <div class="notify-form">
+      <div class="notify-row">
+        <input class="notify-input" type="text" placeholder="First name"/>
+        <input class="notify-input" type="email" placeholder="Email address"/>
+      </div>
+      <button class="notify-submit" onclick="this.textContent='✓ You\'re in!';this.style.background='var(--green)'">Notify Me of New Drops</button>
+      <p class="notify-note">By subscribing you agree to our Privacy Policy. No spam, ever.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT TEASER ── -->
+<section class="about-section">
+  <div class="about-inner">
+    <div class="about-stat-grid fade-up">
+      <div class="about-stat-box"><span class="about-stat-n">2005</span><span class="about-stat-l">Year founded</span></div>
+      <div class="about-stat-box"><span class="about-stat-n">&lt; 100</span><span class="about-stat-l">Wines at once</span></div>
+      <div class="about-stat-box"><span class="about-stat-n">0</span><span class="about-stat-l">Restocks. Ever.</span></div>
+      <div class="about-stat-box"><span class="about-stat-n">Real</span><span class="about-stat-l">Comparison prices</span></div>
+    </div>
+    <div class="about-text fade-up delay-1">
+      <div class="overline">About Overstock Cellars</div>
+      <h2>The system is the hero.</h2>
+      <p>We're not a discount wine site. We're a value-driven, price-transparent retailer. We source overstock and closeouts from wineries, importers, and distributors — and we show you exactly what the same bottle costs everywhere else.</p>
+      <p>When a wine is sold out, it's gone for good. That's not a gimmick — it's the model.</p>
+      <a href="#">Read our story <svg style="display:inline" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ── VENDOR ── -->
+<section class="vendor-section">
+  <div class="vendor-inner">
+    <div class="vendor-text">
+      <div class="overline">For wineries & importers</div>
+      <h2>Sell us your wine.</h2>
+      <p>We buy overstock, closeouts, excess inventory, and packaging change lots directly. Trader Joe's–style: quality-first, professional, and discreet.</p>
+      <a href="#" class="vendor-btn" style="margin-top:4px">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Submit Your Inventory
+      </a>
+    </div>
+    <div class="vendor-criteria">
+      <div class="vc"><div class="vc-icon">🍷</div><div><h4>Overstock & closeouts</h4><p>Excess cases, discontinued labels, or inventory you need to move efficiently and discreetly.</p></div></div>
+      <div class="vc"><div class="vc-icon">📦</div><div><h4>Packaging changes</h4><p>Label redesign, format change, or vintage transition? We take the prior stock off your hands.</p></div></div>
+      <div class="vc"><div class="vc-icon">🤝</div><div><h4>Professional & discreet</h4><p>We work with wineries, importers, and distributors. Confidential when needed. Fast decisions.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="footer-logo">Overstock</span>
+      <span class="footer-brand-sub">Cellars</span>
+      <p>Value-driven wine retail. Smart sourcing. Real pricing transparency. Since 2005.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About Us</a>
+      <a href="#">How Pricing Works</a>
+      <a href="#">Why You Saved</a>
+      <a href="#">Shipping &amp; Returns</a>
+      <a href="#">FAQ</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms &amp; Conditions</a>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="#">New Arrivals</a>
+      <a href="#">Shop All Wines</a>
+      <a href="#">Red Wines</a>
+      <a href="#">White Wines</a>
+      <a href="#">Sparkling &amp; Rosé</a>
+      <a href="#">Last Call</a>
+      <a href="#" class="sold-out">Sold Out Deals ↗</a>
+    </div>
+    <div class="footer-col">
+      <h4>Partners</h4>
+      <a href="#">Sell Us Your Wine</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="#">16000 Strathern St., #A</a>
+      <a href="#">Van Nuys, CA 91406</a>
+      <a href="tel:8189080080">(818) 908-0080</a>
+      <a href="mailto:info@overstockcellars.com">info@overstockcellars.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-disc">* Elsewhere prices are based on Wine-Searcher and other national retailers at time of posting. &nbsp;© 2025 Overstock Cellars. All rights reserved.</div>
+    <div class="social-row">
+      <div class="si"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div>
+      <div class="si"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:.1});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+function addedAnim(btn){
+  const orig=btn.textContent;
+  btn.textContent='✓ Added';btn.classList.add('added');
+  setTimeout(()=>{btn.textContent=orig;btn.classList.remove('added')},2000);
+}
+</script>
+</body>
+</html>
