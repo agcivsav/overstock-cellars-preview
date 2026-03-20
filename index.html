@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Overstock Cellars — Design Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #EE4037;
+      --green: #2F7D57;
+      --bg: #FAF8F5;
+      --bg2: #F2EEE9;
+      --text: #1F1F1F;
+      --muted: #6F6F6F;
+      --divider: #E2DED8;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); overflow-x: hidden; }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .bar {
+      background: var(--bg2);
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 13px;
+      letter-spacing: .03em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--divider);
+    }
+    .bar span { color: var(--red); font-weight: 600; }
+
+    /* ── NAV ── */
+    nav {
+      background: #fff;
+      border-bottom: 1px solid var(--divider);
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 72px;
+    }
+    .logo {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      color: var(--red);
+      text-transform: uppercase;
+      line-height: 1.1;
+      text-decoration: none;
+    }
+    .logo em {
+      font-size: 11px;
+      font-style: normal;
+      color: var(--muted);
+      display: block;
+      letter-spacing: .25em;
+      font-family: var(--sans);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      text-decoration: none;
+      font-family: var(--serif);
+      font-size: 15px;
+      color: var(--text);
+      transition: color .2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -2px; left: 0; width: 0; height: 1.5px;
+      background: var(--red);
+      transition: width .25s ease;
+    }
+    .nav-links a:hover { color: var(--red); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.hot { color: var(--red); font-weight: 600; }
+    .nav-actions { display: flex; align-items: center; gap: 20px; }
+    .nav-actions svg { cursor: pointer; }
+    .cart-btn {
+      background: none; border: 1.5px solid var(--divider); border-radius: 20px;
+      padding: 6px 16px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px;
+      color: var(--text); font-family: var(--sans);
+      transition: border-color .2s, background .2s;
+    }
+    .cart-btn:hover { border-color: var(--red); background: #fff5f4; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 580px;
+      background: linear-gradient(135deg, #2a1810 0%, #1a0d0a 40%, #3d1f14 100%);
+      display: grid; grid-template-columns: 1fr 1fr;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(139,60,30,.4) 0%, transparent 65%),
+                  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(255,255,255,.04)'/%3E%3C/svg%3E");
+    }
+    .hero-text {
+      padding: 80px 64px 80px 80px;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; z-index: 2;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: rgba(255,255,255,.55); font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+      margin-bottom: 24px; font-family: var(--sans);
+    }
+    .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .hero h1 em { font-style: italic; color: rgba(255,255,255,.75); }
+    .hero-sub {
+      color: rgba(255,255,255,.65);
+      font-size: 18px; line-height: 1.6;
+      max-width: 440px; margin-bottom: 36px;
+    }
+    .hero-sub strong { color: rgba(255,255,255,.9); }
+    .pricing-pills { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 44px; }
+    .pill {
+      border-radius: 100px;
+      padding: 7px 18px; font-size: 13px; font-weight: 500;
+      letter-spacing: .02em; font-family: var(--sans);
+      transition: transform .2s;
+      cursor: default;
+    }
+    .pill:hover { transform: translateY(-1px); }
+    .pill-our { background: var(--red); color: #fff; }
+    .pill-else { border: 1.5px solid rgba(255,255,255,.3); color: rgba(255,255,255,.8); }
+    .pill-save { background: rgba(47,125,87,.85); color: #fff; }
+    .hero-btns { display: flex; gap: 14px; }
+    .btn-primary {
+      background: var(--red); color: #fff;
+      padding: 14px 28px; border-radius: 100px;
+      font-size: 15px; font-weight: 600; text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(238,64,55,.4); }
+    .btn-outline {
+      border: 1.5px solid rgba(255,255,255,.3); color: rgba(255,255,255,.85);
+      padding: 14px 28px; border-radius: 100px;
+      font-size: 15px; font-weight: 500; text-decoration: none;
+      transition: border-color .2s, background .2s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,.7); background: rgba(255,255,255,.05); }
+
+    .hero-visual {
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 2; padding: 60px 40px;
+    }
+    .hero-bottles {
+      display: flex; align-items: flex-end; gap: 16px;
+      animation: floatIn 1.2s ease both;
+    }
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .bottle {
+      width: 68px; border-radius: 6px 6px 4px 4px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.5);
+      position: relative;
+    }
+    .bottle svg { width: 100%; display: block; }
+
+    /* ── DISCLAIMER STRIP ── */
+    .disclaimer-strip {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--divider);
+      text-align: center; padding: 12px 24px;
+      font-size: 12px; color: var(--muted);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .disclaimer-strip svg { color: var(--muted); flex-shrink: 0; }
+
+    /* ── SECTIONS ── */
+    .section { padding: 72px 80px; }
+    .section-header {
+      text-align: center; margin-bottom: 48px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .section-header::before, .section-header::after {
+      content: ''; flex: 1; height: 1px; background: var(--divider);
+    }
+    .section-header h2 {
+      font-family: var(--serif); font-size: 32px; white-space: nowrap;
+      color: var(--text);
+    }
+    .section-subhead {
+      text-align: center; color: var(--muted); font-size: 16px;
+      margin-top: -32px; margin-bottom: 48px; line-height: 1.6;
+    }
+
+    /* ── CATEGORY CARDS ── */
+    .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .cat-card {
+      background: var(--bg2);
+      border: 1px solid var(--divider);
+      border-radius: 16px; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform .25s, box-shadow .25s;
+      cursor: pointer;
+    }
+    .cat-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.1); }
+    .cat-card-body { padding: 28px 28px 24px; }
+    .cat-tag {
+      display: inline-block; background: var(--red);
+      color: #fff; font-size: 10px; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 100px;
+      margin-bottom: 12px;
+    }
+    .cat-card h3 { font-family: var(--serif); font-size: 24px; margin-bottom: 6px; }
+    .cat-card p { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+    .cat-btn {
+      display: inline-block; background: var(--red); color: #fff;
+      padding: 10px 22px; border-radius: 100px; font-size: 14px; font-weight: 600;
+      text-decoration: none; transition: background .2s;
+    }
+    .cat-btn:hover { background: #d63529; }
+    .cat-bar {
+      height: 5px;
+      background: linear-gradient(90deg, var(--red), rgba(238,64,55,.3));
+    }
+    .cat-bar.green { background: linear-gradient(90deg, var(--green), rgba(47,125,87,.3)); }
+    .cat-bar.amber { background: linear-gradient(90deg, #c8822a, rgba(200,130,42,.3)); }
+
+    /* ── PRODUCT GRID ── */
+    .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .product-card {
+      background: #fff;
+      border: 1px solid var(--divider);
+      border-radius: 14px; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .product-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.1); }
+    .card-img-wrap {
+      position: relative; background: var(--bg2);
+      padding: 32px 24px 24px; display: flex; justify-content: center;
+      min-height: 220px; align-items: center;
+    }
+    .card-badge {
+      position: absolute; top: 12px; right: 12px;
+      background: var(--green); color: #fff;
+      font-size: 12px; font-weight: 700; letter-spacing: .03em;
+      padding: 5px 10px; border-radius: 8px;
+    }
+    .card-low-stock {
+      position: absolute; top: 12px; left: 12px;
+      background: rgba(238,64,55,.12); color: var(--red);
+      font-size: 10px; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; padding: 4px 8px; border-radius: 6px;
+      border: 1px solid rgba(238,64,55,.2);
+    }
+    .bottle-placeholder {
+      width: 60px;
+      height: 160px;
+      border-radius: 8px 8px 4px 4px;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+      box-shadow: 4px 8px 20px rgba(0,0,0,.2);
+    }
+    .card-info { padding: 18px 18px 20px; flex: 1; display: flex; flex-direction: column; }
+    .wine-name {
+      font-family: var(--serif); font-size: 16px; font-weight: 600;
+      color: var(--text); margin-bottom: 4px; line-height: 1.3;
+    }
+    .wine-detail { color: var(--muted); font-size: 12px; margin-bottom: 16px; }
+    .price-stack { display: flex; flex-direction: column; gap: 2px; margin-bottom: 16px; }
+    .our-price {
+      font-size: 22px; font-weight: 700; color: var(--red);
+      font-family: var(--serif); line-height: 1;
+      display: flex; align-items: baseline; gap: 4px;
+    }
+    .our-price span { font-size: 13px; font-weight: 500; }
+    .elsewhere-row {
+      display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted);
+    }
+    .elsewhere-label { font-size: 11px; letter-spacing: .04em; }
+    .elsewhere-price { text-decoration: line-through; }
+    .you-save {
+      font-size: 12px; font-weight: 600; color: var(--green);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .add-btn {
+      width: 100%; background: var(--red); color: #fff;
+      border: none; border-radius: 100px; height: 40px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      transition: background .2s, transform .15s;
+      margin-top: auto; font-family: var(--sans);
+    }
+    .add-btn:hover { background: #d63529; transform: scale(1.01); }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      background: var(--text); color: #fff; padding: 80px;
+      position: relative; overflow: hidden;
+    }
+    .how-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(238,64,55,.12) 0%, transparent 60%);
+    }
+    .how-section .section-header { position: relative; z-index: 1; }
+    .how-section .section-header::before,
+    .how-section .section-header::after { background: rgba(255,255,255,.12); }
+    .how-section .section-header h2 { color: #fff; }
+    .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; position: relative; z-index: 1; }
+    .how-step { text-align: center; }
+    .how-icon {
+      width: 64px; height: 64px; background: rgba(238,64,55,.15);
+      border: 1px solid rgba(238,64,55,.3); border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; font-size: 28px;
+    }
+    .how-step h3 { font-family: var(--serif); font-size: 20px; color: #fff; margin-bottom: 10px; }
+    .how-step p { color: rgba(255,255,255,.55); font-size: 14px; line-height: 1.7; }
+
+    /* ── PRICE EXPLAINER ── */
+    .price-explainer {
+      background: var(--bg2);
+      border: 1px solid var(--divider);
+      border-radius: 20px; padding: 56px 64px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;
+    }
+    .explainer-text h2 { font-family: var(--serif); font-size: 36px; margin-bottom: 16px; line-height: 1.2; }
+    .explainer-text p { color: var(--muted); font-size: 16px; line-height: 1.7; margin-bottom: 24px; }
+    .explainer-link { color: var(--red); font-size: 14px; font-weight: 600; text-decoration: none; }
+    .explainer-link:hover { text-decoration: underline; }
+    .price-demo {
+      background: #fff; border: 1px solid var(--divider); border-radius: 16px;
+      padding: 32px;
+    }
+    .demo-label { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .demo-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--divider); }
+    .demo-row:last-child { border-bottom: none; }
+    .demo-row-label { font-size: 14px; color: var(--muted); }
+    .demo-price-our { font-family: var(--serif); font-size: 28px; font-weight: 700; color: var(--red); }
+    .demo-price-else { font-size: 20px; color: var(--muted); text-decoration: line-through; }
+    .demo-price-save { font-size: 18px; font-weight: 700; color: var(--green); }
+
+    /* ── LAST CALL ── */
+    .last-call-section { padding: 72px 80px; background: var(--bg2); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text); color: rgba(255,255,255,.5);
+      padding: 72px 80px 40px;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr; gap: 48px; margin-bottom: 56px; }
+    .footer-brand .logo { color: rgba(255,255,255,.9); font-size: 18px; margin-bottom: 16px; display: block; }
+    .footer-brand p { font-size: 13px; line-height: 1.7; max-width: 240px; }
+    .footer-col h4 {
+      font-family: var(--serif); color: #fff; font-size: 15px;
+      margin-bottom: 16px; font-weight: 600;
+    }
+    .footer-col a {
+      display: block; color: rgba(255,255,255,.45); text-decoration: none;
+      font-size: 13px; margin-bottom: 10px; transition: color .2s;
+    }
+    .footer-col a:hover { color: var(--red); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 28px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-disclaimer { font-size: 12px; max-width: 60%; line-height: 1.5; }
+    .social-row { display: flex; gap: 16px; }
+    .social-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.45); transition: border-color .2s, color .2s;
+      cursor: pointer;
+    }
+    .social-icon:hover { border-color: rgba(255,255,255,.4); color: rgba(255,255,255,.8); }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up:nth-child(2) { transition-delay: .1s; }
+    .fade-up:nth-child(3) { transition-delay: .2s; }
+    .fade-up:nth-child(4) { transition-delay: .3s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .section { padding: 56px 40px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+      .cat-grid { grid-template-columns: 1fr 1fr; }
+      .how-section { padding: 56px 40px; }
+      .how-grid { gap: 32px; }
+      .price-explainer { grid-template-columns: 1fr; gap: 32px; padding: 40px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      nav { padding: 0 24px; }
+      .hero-text { padding: 60px 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="bar">
+    ◆ &nbsp;Limited quantities &nbsp;·&nbsp; New drops weekly &nbsp;·&nbsp; <span>Free shipping on 6+ bottles</span> &nbsp;·&nbsp; Fast California delivery
+  </div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#" class="logo">Overstock<em>Cellars</em></a>
+    <div class="nav-links">
+      <a href="#" class="hot">New Arrivals</a>
+      <a href="#">Shop All Wines</a>
+      <a href="#">Red Wines</a>
+      <a href="#">White Wines</a>
+      <a href="#">Sparkling &amp; Rosé</a>
+      <a href="#">Last Call</a>
+      <a href="#">How Pricing Works</a>
+    </div>
+    <div class="nav-actions">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <button class="cart-btn">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Cart (0)
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-text">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Value wine. No gimmicks.
+      </div>
+      <h1>Overstock wines.<br><em>Priced below market.</em></h1>
+      <p class="hero-sub">
+        Compare <strong>Our Price</strong> vs <strong>Elsewhere</strong> and keep the savings. Smart sourcing. Real transparency.
+      </p>
+      <div class="pricing-pills">
+        <span class="pill pill-our">Our Price</span>
+        <span class="pill pill-else">Elsewhere Price</span>
+        <span class="pill pill-save">You Save</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#arrivals" class="btn-primary">Shop New Arrivals</a>
+        <a href="#how" class="btn-outline">How Pricing Works</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <!-- Stylized bottle illustrations -->
+      <div class="hero-bottles">
+        <div class="bottle" style="height:200px">
+          <svg viewBox="0 0 60 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="0" width="20" height="30" rx="3" fill="#2a1810"/>
+            <path d="M15 30 Q10 50 10 80 L10 185 Q10 195 30 195 Q50 195 50 185 L50 80 Q50 50 45 30 Z" fill="#4a2018"/>
+            <rect x="14" y="80" width="32" height="60" rx="2" fill="rgba(255,255,255,.08)"/>
+            <text x="30" y="108" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="7" font-family="serif">RUTHERFORD</text>
+            <text x="30" y="118" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="6" font-family="serif">RANCH</text>
+            <text x="30" y="130" text-anchor="middle" fill="#EE4037" font-size="8" font-family="serif">CAB SAV</text>
+          </svg>
+        </div>
+        <div class="bottle" style="height:230px">
+          <svg viewBox="0 0 60 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="22" y="0" width="16" height="35" rx="2" fill="#1a1a1a"/>
+            <path d="M12 35 Q8 60 8 90 L8 215 Q8 225 30 225 Q52 225 52 215 L52 90 Q52 60 48 35 Z" fill="#7a2e12"/>
+            <rect x="12" y="100" width="36" height="70" rx="2" fill="rgba(255,255,255,.1)"/>
+            <text x="30" y="128" text-anchor="middle" fill="rgba(255,255,255,.8)" font-size="8" font-family="serif">TALBOTT</text>
+            <text x="30" y="140" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="6" font-family="sans-serif">CHARDONNAY</text>
+            <text x="30" y="155" text-anchor="middle" fill="#EE4037" font-size="9" font-family="serif">2021</text>
+          </svg>
+        </div>
+        <div class="bottle" style="height:210px">
+          <svg viewBox="0 0 60 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="21" y="0" width="18" height="28" rx="2" fill="#111"/>
+            <path d="M13 28 Q9 52 9 82 L9 195 Q9 205 30 205 Q51 205 51 195 L51 82 Q51 52 47 28 Z" fill="#c8a870"/>
+            <rect x="13" y="90" width="34" height="65" rx="2" fill="rgba(255,255,255,.15)"/>
+            <text x="30" y="116" text-anchor="middle" fill="#4a3010" font-size="7" font-family="serif">CHÂTEAU</text>
+            <text x="30" y="127" text-anchor="middle" fill="#4a3010" font-size="8" font-family="serif" font-weight="bold">LUSSAN</text>
+            <text x="30" y="142" text-anchor="middle" fill="#7a4020" font-size="7" font-family="serif">BORDEAUX</text>
+          </svg>
+        </div>
+        <div class="bottle" style="height:195px">
+          <svg viewBox="0 0 60 195" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="21" y="0" width="18" height="26" rx="2" fill="#333"/>
+            <path d="M14 26 Q10 48 10 75 L10 180 Q10 190 30 190 Q50 190 50 180 L50 75 Q50 48 46 26 Z" fill="#e8c0b0"/>
+            <rect x="13" y="82" width="34" height="60" rx="2" fill="rgba(255,255,255,.2)"/>
+            <text x="30" y="107" text-anchor="middle" fill="#7a3025" font-size="8" font-family="serif">ENROUTE</text>
+            <text x="30" y="118" text-anchor="middle" fill="#7a3025" font-size="7" font-family="serif">PINOT NOIR</text>
+            <text x="30" y="133" text-anchor="middle" fill="#EE4037" font-size="7" font-family="sans-serif">ROSÉ 2022</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Disclaimer strip -->
+  <div class="disclaimer-strip">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    Elsewhere prices are based on Wine-Searcher and other national retailers at time of posting.
+  </div>
+
+  <!-- Category Cards -->
+  <section class="section" id="arrivals">
+    <div class="section-header"><h2>Shop by Collection</h2></div>
+    <div class="cat-grid">
+      <div class="cat-card fade-up">
+        <div class="cat-bar"></div>
+        <div class="cat-card-body">
+          <span class="cat-tag">Fresh Drop</span>
+          <h3>New Arrivals</h3>
+          <p>Latest additions — sorted by what just landed, not by price.</p>
+          <a href="#" class="cat-btn">Shop New Arrivals</a>
+        </div>
+      </div>
+      <div class="cat-card fade-up">
+        <div class="cat-bar green"></div>
+        <div class="cat-card-body">
+          <span class="cat-tag" style="background:var(--green)">Best Value</span>
+          <h3>Biggest Savings</h3>
+          <p>Highest percentage off right now — ranked by what you save.</p>
+          <a href="#" class="cat-btn">Shop Biggest Savings</a>
+        </div>
+      </div>
+      <div class="cat-card fade-up">
+        <div class="cat-bar amber"></div>
+        <div class="cat-card-body">
+          <span class="cat-tag" style="background:#c8822a">Last Chance</span>
+          <h3>Last Call</h3>
+          <p>Final inventory. No restocks. Once it's gone, it's gone.</p>
+          <a href="#" class="cat-btn">Shop Last Call</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Grid -->
+  <section class="section" style="padding-top: 0">
+    <div class="section-header"><h2>Best Deals Right Now</h2></div>
+    <div class="product-grid">
+
+      <!-- Card 1 -->
+      <div class="product-card fade-up">
+        <div class="card-img-wrap">
+          <span class="card-badge">47% off</span>
+          <div class="bottle-placeholder" style="background: linear-gradient(180deg, #4a2018 0%, #7a3020 60%, #4a2018 100%);">
+            <div style="height:40%;background:rgba(255,255,255,.08);margin:20% 8px 0;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;">
+              <span style="font-size:6px;color:rgba(255,255,255,.7);font-family:serif;letter-spacing:.05em;">CHÂTEAU</span>
+              <span style="font-size:7px;color:#fff;font-family:serif;font-weight:700;">LUSSAN</span>
+              <span style="font-size:5px;color:rgba(255,255,255,.5);">BORDEAUX</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="wine-name">Château Lussan</div>
+          <div class="wine-detail">Bordeaux Supérieur · 2019</div>
+          <div class="price-stack">
+            <div class="our-price"><span>Our Price</span> $45</div>
+            <div class="elsewhere-row">
+              <span class="elsewhere-label">Elsewhere</span>
+              <span class="elsewhere-price">$85</span>
+            </div>
+            <div class="you-save">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              You save $40
+            </div>
+          </div>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="product-card fade-up">
+        <div class="card-img-wrap">
+          <span class="card-badge">50% off</span>
+          <span class="card-low-stock">Only 6 left</span>
+          <div class="bottle-placeholder" style="background: linear-gradient(180deg, #1a0d0a 0%, #3d1810 50%, #1a0d0a 100%);">
+            <div style="height:40%;background:rgba(255,255,255,.1);margin:22% 8px 0;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;">
+              <span style="font-size:5.5px;color:rgba(255,255,255,.65);font-family:serif;">RUTHERFORD</span>
+              <span style="font-size:6.5px;color:#fff;font-family:serif;font-weight:700;">RANCH</span>
+              <span style="font-size:5px;color:#EE4037;">CAB SAV</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="wine-name">Rutherford Ranch Cabernet Sauvignon</div>
+          <div class="wine-detail">Napa Valley · 2020</div>
+          <div class="price-stack">
+            <div class="our-price"><span>Our Price</span> $59</div>
+            <div class="elsewhere-row">
+              <span class="elsewhere-label">Elsewhere</span>
+              <span class="elsewhere-price">$118</span>
+            </div>
+            <div class="you-save">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              You save $59
+            </div>
+          </div>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="product-card fade-up">
+        <div class="card-img-wrap">
+          <span class="card-badge">50% off</span>
+          <div class="bottle-placeholder" style="background: linear-gradient(180deg, #b8a060 0%, #d4bc80 50%, #b8a060 100%);">
+            <div style="height:42%;background:rgba(255,255,255,.2);margin:20% 8px 0;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;">
+              <span style="font-size:6px;color:#4a3010;font-family:serif;font-weight:700;">TALBOTT</span>
+              <span style="font-size:5px;color:#6a4820;font-family:serif;">CHARDONNAY</span>
+              <span style="font-size:5px;color:#7a3010;">2021</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="wine-name">Talbott Chardonnay</div>
+          <div class="wine-detail">Sleepy Hollow Vineyard · Santa Lucia Highlands · 2021</div>
+          <div class="price-stack">
+            <div class="our-price"><span>Our Price</span> $66</div>
+            <div class="elsewhere-row">
+              <span class="elsewhere-label">Elsewhere</span>
+              <span class="elsewhere-price">$132</span>
+            </div>
+            <div class="you-save">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              You save $66
+            </div>
+          </div>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="product-card fade-up">
+        <div class="card-img-wrap">
+          <span class="card-badge">26% off</span>
+          <div class="bottle-placeholder" style="background: linear-gradient(180deg, #2d1a3a 0%, #4a2d60 50%, #2d1a3a 100%);">
+            <div style="height:40%;background:rgba(255,255,255,.1);margin:22% 8px 0;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:3px;">
+              <span style="font-size:5.5px;color:rgba(255,255,255,.7);font-family:serif;">HOOPES</span>
+              <span style="font-size:6.5px;color:#fff;font-family:serif;font-weight:700;">RESERVE</span>
+              <span style="font-size:5px;color:rgba(255,200,100,.8);">RED BLEND</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="wine-name">Hoopes Reserve Red Blend</div>
+          <div class="wine-detail">Napa Valley · 2020</div>
+          <div class="price-stack">
+            <div class="our-price"><span>Our Price</span> $45</div>
+            <div class="elsewhere-row">
+              <span class="elsewhere-label">Elsewhere</span>
+              <span class="elsewhere-price">$61</span>
+            </div>
+            <div class="you-save">
+              <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              You save $16
+            </div>
+          </div>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+      </div>
+
+    </div>
+    <div style="text-align:center;margin-top:40px">
+      <a href="#" class="btn-primary">View All Deals →</a>
+    </div>
+  </section>
+
+  <!-- Price Explainer -->
+  <section class="section" id="how">
+    <div class="price-explainer fade-up">
+      <div class="explainer-text">
+        <h2>Simple pricing.<br>No games.</h2>
+        <p>We source overstock, closeouts, and excess inventory directly from wineries, importers, and distributors. We show you exactly what the same bottle sells for elsewhere — so you know the deal is real.</p>
+        <p>Elsewhere prices are pulled from Wine-Searcher and national retailers at the time we post each wine.</p>
+        <a href="#" class="explainer-link">How we compare prices →</a>
+      </div>
+      <div class="price-demo">
+        <div class="demo-label">Live Price Example — Rutherford Ranch Cab Sav</div>
+        <div class="demo-row">
+          <div class="demo-row-label">Our Price</div>
+          <div class="demo-price-our">$59</div>
+        </div>
+        <div class="demo-row">
+          <div class="demo-row-label">Elsewhere</div>
+          <div class="demo-price-else">$118</div>
+        </div>
+        <div class="demo-row" style="border-bottom:none;padding-top:16px">
+          <div class="demo-row-label" style="font-weight:600;color:var(--green)">You Save</div>
+          <div class="demo-price-save">$59 (50%)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-section" id="how-works">
+    <div class="section-header"><h2>How Overstock Cellars Works</h2></div>
+    <div class="how-grid">
+      <div class="how-step fade-up">
+        <div class="how-icon">📦</div>
+        <h3>We source the overstock</h3>
+        <p>Discontinued labels, excess inventory, packaging changes — we buy direct from wineries, importers, and distributors at below-market prices.</p>
+      </div>
+      <div class="how-step fade-up">
+        <div class="how-icon">🔍</div>
+        <h3>We show the comparison</h3>
+        <p>Every bottle lists what it sells for elsewhere, sourced from Wine-Searcher and national retailers at time of posting. No made-up MSRPs.</p>
+      </div>
+      <div class="how-step fade-up">
+        <div class="how-icon">💡</div>
+        <h3>You buy smarter</h3>
+        <p>Same wines. Better prices. Limited quantities. When it's gone, it's gone. No restocks — so there's always something new to discover.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">Overstock<em style="color:rgba(255,255,255,.4)">Cellars</em></span>
+        <p>Value-driven wine retail. Smart sourcing. Real pricing transparency. Since 2005.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">How Pricing Works</a>
+        <a href="#">Shipping & Returns</a>
+        <a href="#">FAQ</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms & Conditions</a>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <a href="#">New Arrivals</a>
+        <a href="#">Shop All Wines</a>
+        <a href="#">Red Wines</a>
+        <a href="#">White Wines</a>
+        <a href="#">Sparkling &amp; Rosé</a>
+        <a href="#">Last Call</a>
+        <a href="#">Sold Out Deals</a>
+      </div>
+      <div class="footer-col">
+        <h4>Partners</h4>
+        <a href="#">Sell Us Your Wine</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="#">Overstock Cellars</a>
+        <a href="#">16000 Strathern St., #A</a>
+        <a href="#">Van Nuys, CA 91406</a>
+        <a href="tel:8189080080">(818) 908-0080</a>
+        <a href="mailto:info@overstockcellars.com">info@overstockcellars.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-disclaimer">
+        * Elsewhere prices are based on Wine-Searcher and other national retailers at time of posting.
+        &nbsp;©2025 Overstock Cellars. All rights reserved.
+      </div>
+      <div class="social-row">
+        <div class="social-icon">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </div>
+        <div class="social-icon">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll fade-up observer
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Smooth hover on product cards
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('mouseenter', () => card.style.cursor = 'pointer');
+    });
+
+    // Add to cart micro-interaction
+    document.querySelectorAll('.add-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const orig = btn.textContent;
+        btn.textContent = '✓ Added';
+        btn.style.background = 'var(--green)';
+        setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1800);
+      });
+    });
+  </script>
+</body>
+</html>
